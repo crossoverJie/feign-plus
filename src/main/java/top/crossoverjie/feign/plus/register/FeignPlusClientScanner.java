@@ -27,7 +27,7 @@ import java.util.Set;
 public class FeignPlusClientScanner extends ClassPathBeanDefinitionScanner {
     public FeignPlusClientScanner(BeanDefinitionRegistry registry) {
         super(registry, true);
-        registerFilters() ;
+        registerFilters();
     }
 
     public void registerFilters() {
@@ -80,16 +80,16 @@ public class FeignPlusClientScanner extends ClassPathBeanDefinitionScanner {
         return beanDefinitions;
     }
 
-    private String buildUrl( MergedAnnotation<FeignPlusClient> feignPlus, MergedAnnotation<RequestMapping> requestMapping){
-        String url = feignPlus.getString("url") ;
+    private String buildUrl(MergedAnnotation<FeignPlusClient> feignPlus, MergedAnnotation<RequestMapping> requestMapping) {
+        String url = feignPlus.getString("url");
 
-        if (requestMapping.isPresent()){
+        if (requestMapping.isPresent()) {
             String[] value = (String[]) requestMapping.getValue("value").get();
-            url += value[0] ;
+            url += value[0];
 
         }
 
-        return url ;
+        return url;
 
     }
 

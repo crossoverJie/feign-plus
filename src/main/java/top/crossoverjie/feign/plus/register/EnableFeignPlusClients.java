@@ -23,5 +23,9 @@ public @interface EnableFeignPlusClients {
 
     String[] value() default {};
 
+    /**
+     * Base packages to scan for annotated components.
+     * @return
+     */
     String[] basePackages() default {};
 }

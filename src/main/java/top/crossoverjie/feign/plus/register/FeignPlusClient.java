@@ -12,6 +12,9 @@ import java.lang.annotation.Target;
 public @interface FeignPlusClient {
 
     String name() default "";
-
+    /**
+     *
+     * @return Target url
+     */
     String url() default "";
 }
