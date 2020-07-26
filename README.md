@@ -33,7 +33,7 @@ public class DemoApplication {
 }
 ```
 
-Now we can use it as we normally use Spring.
+Now we can use it as we normally use `Spring`.
 
 ```java
     @Autowired
