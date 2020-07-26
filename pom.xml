@@ -4,9 +4,16 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>9</version>
+    </parent>
+
     <groupId>top.crossoverjie.opensource</groupId>
     <artifactId>feign-plus</artifactId>
     <version>1.0.0-SNAPSHOT</version>
+    <name>feign-plus</name>
     <description>A better feign client library to combine with SpringBoot.</description>
     <inceptionYear>2020</inceptionYear>
 
@@ -16,6 +23,27 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <open.feign.version>10.10.1</open.feign.version>
     </properties>
+
+    <developers>
+        <developer>
+            <name>jie.chen</name>
+            <id>crossoverJie</id>
+            <email>crossoverjie@gmail.com</email>
+            <roles>
+                <role>Project Lead</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <issueManagement>
+        <system>github</system>
+        <url>https://github.com/crossoverJie/feign-plusissues</url>
+    </issueManagement>
+    <scm>
+        <url>https://github.com/crossoverJie/feign-plus</url>
+        <connection>scm:git:git@github.com:crossoverJie/feign-plus.git</connection>
+        <developerConnection>scm:git:git@github.com:crossoverJie/feign-plus.git</developerConnection>
+    </scm>
 
     <dependencyManagement>
         <dependencies>
@@ -105,10 +133,23 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.0</version>
                 <configuration>
-                    <release>11</release>
+                    <source>11</source>
+                    <target>11</target>
+                    <verbose>true</verbose>
                 </configuration>
             </plugin>
         </plugins>
     </build>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>oss</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>oss</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
 
 </project>
