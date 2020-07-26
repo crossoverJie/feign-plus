@@ -1,13 +1,14 @@
 package top.crossoverjie.feign.plus.factory;
 
+import feign.Client;
 import feign.Feign;
 import feign.Request;
 import feign.Retryer;
 import feign.gson.GsonDecoder;
 import feign.gson.GsonEncoder;
-import feign.okhttp.OkHttpClient;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.FactoryBean;
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import top.crossoverjie.feign.plus.springboot.FeignPlusConfigurationProperties;
@@ -33,11 +34,15 @@ public class FeignPlusBeanFactory<T> implements FactoryBean<T>, ApplicationConte
 
     @Override
     public T getObject() throws Exception {
-        okhttp3.OkHttpClient delegate = applicationContext.getBean("delegateClient", okhttp3.OkHttpClient.class) ;
         FeignPlusConfigurationProperties conf = applicationContext.getBean(FeignPlusConfigurationProperties.class) ;
-
+        Client client ;
+        try {
+            client = applicationContext.getBean("client", Client.class) ;
+        }catch (NoSuchBeanDefinitionException e){
+            throw new NullPointerException("Without one of [okhttp3, Http2Client] client.") ;
+        }
         T target = Feign.builder()
-                .client(new OkHttpClient(delegate))
+                .client(client)
                 .encoder(new GsonEncoder())
                 .decoder(new GsonDecoder())
                 .retryer(new Retryer.Default(100, SECONDS.toMillis(1), 0))

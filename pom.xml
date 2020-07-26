@@ -14,6 +14,7 @@
         <springboot.version>2.3.1.RELEASE</springboot.version>
         <java.version>11</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <open.feign.version>10.10.1</open.feign.version>
     </properties>
 
     <dependencyManagement>
@@ -38,19 +39,25 @@
         <dependency>
             <groupId>io.github.openfeign</groupId>
             <artifactId>feign-core</artifactId>
-            <version>10.10.1</version>
+            <version>${open.feign.version}</version>
         </dependency>
 
         <dependency>
             <groupId>io.github.openfeign</groupId>
             <artifactId>feign-okhttp</artifactId>
-            <version>10.10.1</version>
+            <version>${open.feign.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-java11</artifactId>
+            <version>${open.feign.version}</version>
         </dependency>
 
         <dependency>
             <groupId>io.github.openfeign</groupId>
             <artifactId>feign-gson</artifactId>
-            <version>10.10.1</version>
+            <version>${open.feign.version}</version>
         </dependency>
 
         <dependency>
