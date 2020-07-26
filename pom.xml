@@ -12,7 +12,7 @@
 
     <groupId>top.crossoverjie.opensource</groupId>
     <artifactId>feign-plus</artifactId>
-    <version>1.0.0</version>
+    <version>0.0.1</version>
     <name>feign-plus</name>
     <description>A better feign client library to combine with SpringBoot.</description>
     <inceptionYear>2020</inceptionYear>
@@ -22,6 +22,7 @@
         <java.version>11</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <open.feign.version>10.10.1</open.feign.version>
+        <github.global.server>github</github.global.server>
     </properties>
 
     <developers>
@@ -142,13 +143,10 @@
     </build>
 
     <distributionManagement>
-        <snapshotRepository>
-            <id>oss</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-        </snapshotRepository>
         <repository>
-            <id>oss</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <id>github</id>
+            <name>GitHub crossoverJie Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/crossoverJie/feign-plus</url>
         </repository>
     </distributionManagement>
 
