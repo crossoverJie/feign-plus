@@ -76,11 +76,10 @@
             <artifactId>feign-okhttp</artifactId>
             <version>${open.feign.version}</version>
         </dependency>
-
         <dependency>
-            <groupId>io.github.openfeign</groupId>
-            <artifactId>feign-java11</artifactId>
-            <version>${open.feign.version}</version>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>

@@ -1,0 +1,7 @@
+feign:
+  plus:
+    connect-timeout: 11000
+    max-idle-connections: 520
+    read-timeout: 12000
+github:
+  url: https://api.github.com
