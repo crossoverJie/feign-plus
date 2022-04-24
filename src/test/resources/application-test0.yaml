@@ -5,3 +5,4 @@ feign:
     read-timeout: 12000
 github:
   url: https://api.github.com
+  port: 443

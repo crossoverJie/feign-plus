@@ -11,6 +11,7 @@ import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import top.crossoverjie.feign.plus.contract.SpringMvcContract;
 import top.crossoverjie.feign.plus.springboot.FeignPlusConfigurationProperties;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -39,9 +40,10 @@ public class FeignPlusBeanFactory<T> implements FactoryBean<T>, ApplicationConte
         try {
             client = applicationContext.getBean("client", Client.class) ;
         }catch (NoSuchBeanDefinitionException e){
-            throw new NullPointerException("Without one of [okhttp3, Http2Client] client.") ;
+            throw new NullPointerException("Without one of [okhttp3] client") ;
         }
         T target = Feign.builder()
+                .contract(new SpringMvcContract())
                 .client(client)
                 .encoder(new GsonEncoder())
                 .decoder(new GsonDecoder())
