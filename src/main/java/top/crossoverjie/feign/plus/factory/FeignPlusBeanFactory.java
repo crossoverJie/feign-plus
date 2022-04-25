@@ -4,7 +4,6 @@ import feign.Client;
 import feign.Feign;
 import feign.Request;
 import feign.Retryer;
-import feign.gson.GsonDecoder;
 import feign.gson.GsonEncoder;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.FactoryBean;
@@ -12,6 +11,9 @@ import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import top.crossoverjie.feign.plus.contract.SpringMvcContract;
+import top.crossoverjie.feign.plus.decoder.FeignExceptionDecoder;
+import top.crossoverjie.feign.plus.decoder.FeignPlusDecoder;
+import top.crossoverjie.feign.plus.intercept.FeignInterceptor;
 import top.crossoverjie.feign.plus.springboot.FeignPlusConfigurationProperties;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -44,9 +46,11 @@ public class FeignPlusBeanFactory<T> implements FactoryBean<T>, ApplicationConte
         }
         T target = Feign.builder()
                 .contract(new SpringMvcContract())
+                .requestInterceptor(new FeignInterceptor())
                 .client(client)
                 .encoder(new GsonEncoder())
-                .decoder(new GsonDecoder())
+                .decoder(new FeignPlusDecoder())
+                .errorDecoder(new FeignExceptionDecoder())
                 .retryer(new Retryer.Default(100, SECONDS.toMillis(1), 0))
                 .options(new Request.Options(conf.getConnectTimeout(),conf.getReadTimeout(), true))
                 .target(proxyInterface, url);

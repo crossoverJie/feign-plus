@@ -6,3 +6,8 @@ feign:
 github:
   url: https://api.github.com
   port: 443
+
+logging:
+  level:
+    top:
+      crossoverjie: debug

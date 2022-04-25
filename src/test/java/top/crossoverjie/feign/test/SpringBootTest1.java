@@ -1,6 +1,5 @@
 package top.crossoverjie.feign.test;
 
-import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,6 +33,6 @@ public class SpringBootTest1 {
     @Test
     public void test1(){
         List<GitHubRes> contributors = github.contributors("crossoverJie", "feign-plus");
-        log.info("contributors={}", new Gson().toJson(contributors));
+//        log.info("contributors={}", new Gson().toJson(contributors));
     }
 }

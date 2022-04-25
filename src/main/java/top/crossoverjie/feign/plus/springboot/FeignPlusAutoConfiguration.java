@@ -3,9 +3,12 @@ package top.crossoverjie.feign.plus.springboot;
 import feign.Client;
 import okhttp3.ConnectionPool;
 import okhttp3.OkHttpClient;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import top.crossoverjie.feign.plus.log.DefaultLogInterceptor;
+import top.crossoverjie.feign.plus.log.FeignLogInterceptor;
 
 import java.util.concurrent.TimeUnit;
 
@@ -36,6 +39,8 @@ public class FeignPlusAutoConfiguration {
     @Bean(value = "client")
     public Client okHttpClient(ConnectionPool connectionPool){
         OkHttpClient delegate = new OkHttpClient().newBuilder()
+                // skip ssl
+                .hostnameVerifier((hostname, session) -> true)
                 .connectionPool(connectionPool)
                 .connectTimeout(feignPlusConfigurationProperties.getConnectTimeout(), TimeUnit.MILLISECONDS)
                 .readTimeout(feignPlusConfigurationProperties.getReadTimeout(), TimeUnit.MILLISECONDS)
@@ -44,4 +49,16 @@ public class FeignPlusAutoConfiguration {
         return new feign.okhttp.OkHttpClient(delegate) ;
     }
 
+
+    @Bean
+    @ConditionalOnMissingBean(FeignSpringContextHolder.class)
+    public FeignSpringContextHolder feignSpringContextHolder() {
+        return new FeignSpringContextHolder();
+    }
+
+    @Bean()
+    @ConditionalOnMissingBean(FeignLogInterceptor.class)
+    public FeignLogInterceptor feignLogInterceptor(){
+        return new DefaultLogInterceptor();
+    }
 }
