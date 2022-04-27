@@ -28,23 +28,14 @@ public interface DemoApi {
 }
 ```
 
-On the basis of `@SpringBootApplication`:
+Now we can use it as we normally use `SpringBoot`.
 
 ```java
 @SpringBootApplication
-@EnableFeignPlusClients(basePackages = "top.crossoverjie.feign.test")
+@EnableFeignPlusClients(basePackages = "com.example.provider.api")
+@RestController
 public class DemoApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
-	}
-
-}
-```
-
-Now we can use it as we normally use `Spring`.
-
-```java
 	@Resource
 	private DemoApi demoApi;
 
@@ -56,6 +47,12 @@ Now we can use it as we normally use `Spring`.
 		demoApi.query(new OrderQueryDTO("999", "zhangsan"));
 		return "hello";
 	}
+
+	public static void main(String[] args) {
+		SpringApplication.run(DemoApplication.class, args);
+	}
+
+}
 ```
 
 # Feature
