@@ -3,6 +3,7 @@ package top.crossoverjie.feign.plus.intercept;
 import cn.hutool.core.util.StrUtil;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
+import top.crossoverjie.feign.plus.context.FeignContextHolder;
 import top.crossoverjie.feign.plus.contract.HttpEncoding;
 import top.crossoverjie.feign.plus.log.FeignLogInterceptor;
 import top.crossoverjie.feign.plus.springboot.FeignSpringContextHolder;
@@ -29,6 +30,7 @@ public class FeignInterceptor implements RequestInterceptor {
         String interfaceName = template.methodMetadata().targetType().getName();
         String targetMethod = template.methodMetadata().configKey();
         String target = StrUtil.format("{}.{}", interfaceName, targetMethod);
+        FeignContextHolder.setLocalTime();
         logInterceptor.request(target, template.request().url(), body);
     }
 

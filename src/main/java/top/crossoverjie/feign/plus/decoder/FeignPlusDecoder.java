@@ -5,10 +5,13 @@ import feign.Response;
 import feign.gson.GsonDecoder;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import top.crossoverjie.feign.plus.context.FeignContextHolder;
 import top.crossoverjie.feign.plus.log.FeignLogInterceptor;
+import top.crossoverjie.feign.plus.metrics.Metrics;
 import top.crossoverjie.feign.plus.springboot.FeignSpringContextHolder;
 
 import java.lang.reflect.Type;
+import java.time.Duration;
 
 
 /**
@@ -30,6 +33,9 @@ public class FeignPlusDecoder extends GsonDecoder {
         String target = StrUtil.format("{}.{}", interfaceName, targetMethod);
         FeignLogInterceptor logInterceptor = FeignSpringContextHolder.getBean(FeignLogInterceptor.class);
         logInterceptor.response(target, response.request().url(), decode);
+        Long start = FeignContextHolder.getLocalTime();
+        long end = System.currentTimeMillis();
+        Metrics.time(Duration.ofMillis(end - start), "feign_call", "target", target, "status", "success");
         return decode;
     }
 }
