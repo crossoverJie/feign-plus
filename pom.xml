@@ -12,7 +12,7 @@
 
     <groupId>top.crossoverjie.opensource</groupId>
     <artifactId>feign-plus</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2-SNAPSHOT</version>
     <name>feign-plus</name>
     <description>A better feign client library to combine with SpringBoot.</description>
     <inceptionYear>2020</inceptionYear>
@@ -105,6 +105,10 @@
             <optional>true</optional>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

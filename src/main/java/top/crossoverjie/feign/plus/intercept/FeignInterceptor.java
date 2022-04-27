@@ -3,6 +3,7 @@ package top.crossoverjie.feign.plus.intercept;
 import cn.hutool.core.util.StrUtil;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
+import top.crossoverjie.feign.plus.contract.HttpEncoding;
 import top.crossoverjie.feign.plus.log.FeignLogInterceptor;
 import top.crossoverjie.feign.plus.springboot.FeignSpringContextHolder;
 
@@ -22,6 +23,7 @@ public class FeignInterceptor implements RequestInterceptor {
      */
     @Override
     public void apply(RequestTemplate template) {
+        template.header(HttpEncoding.CONTENT_TYPE, "application/json");
         String body = StrUtil.str(template.body(), StandardCharsets.UTF_8);
         FeignLogInterceptor logInterceptor = FeignSpringContextHolder.getBean(FeignLogInterceptor.class);
         String interfaceName = template.methodMetadata().targetType().getName();

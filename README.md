@@ -11,11 +11,20 @@ Write [Feign](https://github.com/OpenFeign/feign) client with `annotation`, like
 We can provider an interface.
 
 ```java
-@FeignPlusClient(name = "github", url = "${github.url}")
-public interface Github {
+@RequestMapping("/v1/demo")
+@FeignPlusClient(name = "demo", url = "${feign.demo.url}", port = "${feign.demo.port}")
+public interface DemoApi {
+    @GetMapping("/id")
+    String sayHello(@RequestParam(value = "id") Long id);
 
-    @RequestLine("GET /repos/{owner}/{repo}/contributors")
-    List<GitHubRes> contributors(@Param("owner") String owner, @Param("repo") String repo);
+    @GetMapping("/id/{id}")
+    String id(@PathVariable(value = "id") Long id);
+
+    @PostMapping("/create")
+    Order create(@RequestBody OrderCreateReq req);
+
+    @GetMapping("/query")
+    Order query(@SpringQueryMap OrderQueryDTO dto);
 }
 ```
 
@@ -36,20 +45,31 @@ public class DemoApplication {
 Now we can use it as we normally use `Spring`.
 
 ```java
-    @Autowired
-    private Github github ;
-    
-    List<GitHubRes> contributors = github.contributors("crossoverJie", "feign-plus");
-    logger.info("contributors={}", new Gson().toJson(contributors));    
+	@Resource
+	private DemoApi demoApi;
+
+	@GetMapping(value = "/hello")
+	public String hello() {
+		demoApi.id(12L);
+		demoApi.sayHello(34L);
+		demoApi.create(new OrderCreateReq("100"));
+		demoApi.query(new OrderQueryDTO("999", "zhangsan"));
+		return "hello";
+	}
 ```
+
+# Feature
+
+- [x] Request/Response/Exception log record.
+- [x] Micrometer support.
 
 
 # More configuration
 
-```properties
-feign.plus.max-idle-connections = 520
-feign.plus.connect-timeout = 11000
-feign.plus.read-timeout = 12000
-# default(okhttp3)
-feign.httpclient=http2Client
+```yaml
+feign:
+  plus:
+    connect-timeout: 11000
+    max-idle-connections: 520
+    read-timeout: 12000
 ```

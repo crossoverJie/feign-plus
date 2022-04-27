@@ -11,3 +11,6 @@ logging:
   level:
     top:
       crossoverjie: debug
+spring:
+  application:
+    name: feign-plus-test

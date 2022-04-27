@@ -1,5 +1,6 @@
 package top.crossoverjie.feign.test;
 
+import feign.Headers;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import top.crossoverjie.feign.plus.register.FeignPlusClient;
@@ -17,5 +18,6 @@ import java.util.List;
 public interface Github {
 
     @GetMapping("/repos/{owner}/{repo}/contributors")
+    @Headers("Content-Type: application/json")
     List<GitHubRes> contributors(@PathVariable("owner") String owner, @PathVariable("repo") String repo);
 }
