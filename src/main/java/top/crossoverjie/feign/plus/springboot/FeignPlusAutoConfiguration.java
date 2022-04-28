@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import top.crossoverjie.feign.plus.decoder.FeignErrorDecoder;
 import top.crossoverjie.feign.plus.log.DefaultLogInterceptor;
 import top.crossoverjie.feign.plus.log.FeignLogInterceptor;
 
@@ -70,5 +71,11 @@ public class FeignPlusAutoConfiguration {
     public MeterRegistryCustomizer<MeterRegistry> meterRegistryCustomizer(
             @Value("${spring.application.name}") String appName) {
         return registry -> registry.config().commonTags("app", appName);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(FeignErrorDecoder.class)
+    public FeignErrorDecoder feignErrorDecoder() {
+        return (methodKey, response, e) -> e;
     }
 }
