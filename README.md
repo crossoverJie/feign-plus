@@ -59,6 +59,7 @@ public class DemoApplication {
 
 - [x] Request/Response/Exception log record.
 - [x] Micrometer support.
+- [x] Exception passing.
 
 
 # More configuration
