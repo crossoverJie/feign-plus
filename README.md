@@ -58,8 +58,40 @@ public class DemoApplication {
 # Feature
 
 - [x] Request/Response/Exception log record.
+- [x] Custom interceptor.
 - [x] Micrometer support.
 - [x] Exception passing.
+
+
+## Interceptor 
+By default, the request log is logged using the debug level.
+![](img/interceptor.jpg)
+
+For custom interceptor you need to create a bean that extends the DefaultLogInterceptor. 
+
+**Example usage:**
+```java
+@Component
+@Slf4j
+public class CustomFeignInterceptor extends DefaultLogInterceptor {
+    @Override
+    public void request(String target, String url, String body) {
+        super.request(target, url, body);
+        log.info("request");
+    }
+
+    @Override
+    public void exception(String target, String url, FeignException feignException) {
+        super.exception(target, url, feignException);
+    }
+
+    @Override
+    public void response(String target, String url, Object response) {
+        super.response(target, url, response);
+        log.info("response");
+    }
+}
+```
 
 
 # More configuration
