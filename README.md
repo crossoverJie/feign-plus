@@ -93,6 +93,72 @@ public class CustomFeignInterceptor extends DefaultLogInterceptor {
 }
 ```
 
+## Exception passing
+
+Custom exception like this:
+
+```java
+@Data
+public class DemoException extends RuntimeException {
+    private String appName;
+    private int code;
+    private String debugStackTrace;
+}    
+```
+
+### Provier
+
+When the provider throws an exception:
+
+```java
+    @GetMapping("/query")
+	public Order query(OrderQueryDTO dto) {
+		log.info("dto = {}", dto);
+		if (dto.getId().equals("1")) {
+			throw new DemoException("provider test exception");
+		}
+		return new Order(dto.getId());
+	}
+```
+
+consumer will get a return of HTTP_CODE = 500.
+
+```json
+{
+"appName": "provider-demo",
+"code": 500,
+"message": "provider test exception",
+"debugStackTrace": "com.example.provider.api.exception.DemoException: provider test exception\n\tat com.exampl.provider.core.ProviderApplication.query(ProviderApplication.java:49)\n\tat"
+}
+```
+
+### Consumer
+
+Configuring an exception decoder:
+
+```java
+@Configuration
+public class FeignExceptionConfig {
+    @Bean
+    public FeignErrorDecoder feignExceptionDecoder() {
+        return (methodName, response, e) -> {
+            HttpStatus status = JSONUtil.toBean(response, HttpStatus.class);
+            return new DemoException(status.getAppName(), status.getCode(), status.getMessage(), status.getDebugStackTrace());
+        };
+    }
+}
+```
+
+then consumer can catch `DemoException` like local call:
+
+```java
+        try {
+            demoApi.query(new OrderQueryDTO(id, "zhangsan"));
+        } catch (DemoException e) {
+            log.error("feignCall:{}, sourceApp:[{}], sourceStackTrace:{}", e.getMessage(), e.getAppName(), e.getDebugStackTrace(), e);
+        }
+```
+
 
 # More configuration
 
