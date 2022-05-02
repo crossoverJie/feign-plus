@@ -149,7 +149,7 @@ public class FeignExceptionConfig {
 }
 ```
 
-then consumer can catch `DemoException` like local call:
+then the consumer can catch `DemoException` like local call:
 
 ```java
         try {
