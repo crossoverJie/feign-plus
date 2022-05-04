@@ -152,11 +152,11 @@ public class FeignExceptionConfig {
 then the consumer can catch `DemoException` like local call:
 
 ```java
-        try {
-            demoApi.query(new OrderQueryDTO(id, "zhangsan"));
-        } catch (DemoException e) {
-            log.error("feignCall:{}, sourceApp:[{}], sourceStackTrace:{}", e.getMessage(), e.getAppName(), e.getDebugStackTrace(), e);
-        }
+    try {
+        demoApi.query(new OrderQueryDTO(id, "zhangsan"));
+    } catch (DemoException e) {
+        log.error("feignCall:{}, sourceApp:[{}], sourceStackTrace:{}", e.getMessage(), e.getAppName(), e.getDebugStackTrace(), e);
+    }
 ```
 
 
