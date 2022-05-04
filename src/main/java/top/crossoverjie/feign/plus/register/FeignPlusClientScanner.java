@@ -1,5 +1,6 @@
 package top.crossoverjie.feign.plus.register;
 
+import cn.hutool.core.util.StrUtil;
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinitionHolder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
@@ -82,14 +83,16 @@ public class FeignPlusClientScanner extends ClassPathBeanDefinitionScanner {
 
     private String buildUrl(MergedAnnotation<FeignPlusClient> feignPlus, MergedAnnotation<RequestMapping> requestMapping) {
         String url = feignPlus.getString("url");
+        String port = feignPlus.getString("port");
+        String host = StrUtil.format("{}:{}", url, port);
 
         if (requestMapping.isPresent()) {
             String[] value = (String[]) requestMapping.getValue("value").get();
-            url += value[0];
+            host += value[0];
 
         }
 
-        return url;
+        return host;
 
     }
 

@@ -12,14 +12,14 @@
 
     <groupId>top.crossoverjie.opensource</groupId>
     <artifactId>feign-plus</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2-SNAPSHOT</version>
     <name>feign-plus</name>
     <description>A better feign client library to combine with SpringBoot.</description>
     <inceptionYear>2020</inceptionYear>
 
     <properties>
         <springboot.version>2.3.1.RELEASE</springboot.version>
-        <java.version>11</java.version>
+        <java.version>8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <open.feign.version>10.10.1</open.feign.version>
         <github.global.server>github</github.global.server>
@@ -76,11 +76,10 @@
             <artifactId>feign-okhttp</artifactId>
             <version>${open.feign.version}</version>
         </dependency>
-
         <dependency>
-            <groupId>io.github.openfeign</groupId>
-            <artifactId>feign-java11</artifactId>
-            <version>${open.feign.version}</version>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -106,6 +105,10 @@
             <optional>true</optional>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -124,6 +127,17 @@
             <artifactId>spring-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <scope>compile</scope>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.7.19</version>
+        </dependency>
     </dependencies>
 
 
@@ -134,8 +148,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.0</version>
                 <configuration>
-                    <source>11</source>
-                    <target>11</target>
+                    <source>8</source>
+                    <target>8</target>
                     <verbose>true</verbose>
                 </configuration>
             </plugin>

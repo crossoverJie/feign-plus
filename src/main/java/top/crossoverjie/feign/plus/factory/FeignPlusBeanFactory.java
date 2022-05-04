@@ -4,13 +4,18 @@ import feign.Client;
 import feign.Feign;
 import feign.Request;
 import feign.Retryer;
-import feign.gson.GsonDecoder;
 import feign.gson.GsonEncoder;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.EmbeddedValueResolverAware;
+import org.springframework.util.StringValueResolver;
+import top.crossoverjie.feign.plus.contract.SpringMvcContract;
+import top.crossoverjie.feign.plus.decoder.FeignExceptionDecoder;
+import top.crossoverjie.feign.plus.decoder.FeignPlusDecoder;
+import top.crossoverjie.feign.plus.intercept.FeignInterceptor;
 import top.crossoverjie.feign.plus.springboot.FeignPlusConfigurationProperties;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -22,7 +27,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
  * Date: 2020/7/25 02:20
  * @since JDK 11
  */
-public class FeignPlusBeanFactory<T> implements FactoryBean<T>, ApplicationContextAware {
+public class FeignPlusBeanFactory<T> implements FactoryBean<T>, ApplicationContextAware, EmbeddedValueResolverAware {
 
 
     private ApplicationContext applicationContext;
@@ -31,6 +36,7 @@ public class FeignPlusBeanFactory<T> implements FactoryBean<T>, ApplicationConte
 
     private String url ;
 
+    private StringValueResolver stringValueResolver;
 
     @Override
     public T getObject() throws Exception {
@@ -39,15 +45,19 @@ public class FeignPlusBeanFactory<T> implements FactoryBean<T>, ApplicationConte
         try {
             client = applicationContext.getBean("client", Client.class) ;
         }catch (NoSuchBeanDefinitionException e){
-            throw new NullPointerException("Without one of [okhttp3, Http2Client] client.") ;
+            throw new NullPointerException("Without one of [okhttp3] client") ;
         }
+        String resolveUrl = stringValueResolver.resolveStringValue(url);
         T target = Feign.builder()
+                .contract(new SpringMvcContract())
+                .requestInterceptor(new FeignInterceptor())
                 .client(client)
                 .encoder(new GsonEncoder())
-                .decoder(new GsonDecoder())
+                .decoder(new FeignPlusDecoder())
+                .errorDecoder(new FeignExceptionDecoder())
                 .retryer(new Retryer.Default(100, SECONDS.toMillis(1), 0))
                 .options(new Request.Options(conf.getConnectTimeout(),conf.getReadTimeout(), true))
-                .target(proxyInterface, url);
+                .target(proxyInterface, resolveUrl);
 
         return target;
     }
@@ -81,5 +91,10 @@ public class FeignPlusBeanFactory<T> implements FactoryBean<T>, ApplicationConte
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    @Override
+    public void setEmbeddedValueResolver(StringValueResolver resolver) {
+        this.stringValueResolver= resolver;
     }
 }
