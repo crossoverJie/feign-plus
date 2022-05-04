@@ -67,7 +67,7 @@ public class DemoApplication {
 By default, the request log is logged using the debug level.
 ![](img/interceptor.jpg)
 
-For custom interceptor you need to create a bean that extends the DefaultLogInterceptor. 
+For custom interceptor you need to create a bean that extends the `DefaultLogInterceptor`. 
 
 **Example usage:**
 ```java
