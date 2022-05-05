@@ -12,7 +12,7 @@
 
     <groupId>top.crossoverjie.opensource</groupId>
     <artifactId>feign-plus</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.0.2</version>
     <name>feign-plus</name>
     <description>A better feign client library to combine with SpringBoot.</description>
     <inceptionYear>2020</inceptionYear>
